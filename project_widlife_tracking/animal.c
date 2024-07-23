@@ -2,6 +2,7 @@
 #include <stdlib.h> /*malloc() realloc() free()*/
 #include "animal.h" /*animal.h header*/
 #include <assert.h> /*assert()*/
+#include <string.h> /*memset()*/
 
 animal_list_t *InitAnimalList()
 {
@@ -32,9 +33,10 @@ void *AddAnimal(animal_list_t *list)
 
     /*pointer to the last element in the animals array*/
     new_animal = &list->animals[list->count - 1];
+    memset(new_animal, 0, sizeof(animal_t)); /*zero out the new animal*/
     new_animal->id = list->count;
 
-    printf("Enter name: ");
+    printf("\nEnter name: ");
     scanf("%s", new_animal->name);
     printf("Enter estimated age (in years, if unknown approximate): ");
     scanf("%d", &new_animal->age);
@@ -70,7 +72,7 @@ void UpdateAnimal(animal_list_t *list)
 
     assert(NULL != list);
 
-    printf("Enter the ID of the animal to update: ");
+    printf("\nEnter the ID of the animal to update: ");
     scanf("%d", &id);
 
     index = FindAnimalByID(list, id);
@@ -90,7 +92,7 @@ void UpdateAnimal(animal_list_t *list)
     printf("Enter new location between: Savannah, Waterhole, Forest, Grassland, Mountain");
     scanf("%s", animal->location);
 
-    printf("Animal updated successfully.\n");
+    printf("\nAnimal updated successfully.\n");
 }
 
 void ViewAnimalDetails(animal_list_t *animal_list, sighting_list_t *sighting_list)
@@ -103,7 +105,7 @@ void ViewAnimalDetails(animal_list_t *animal_list, sighting_list_t *sighting_lis
     assert(NULL != animal_list);
     assert(NULL != sighting_list);
 
-    printf("Enter the ID of the animal to view: ");
+    printf("\nEnter the ID of the animal to view: ");
     scanf("%d", &id);
 
     index = FindAnimalByID(animal_list, id);
@@ -131,11 +133,46 @@ void ViewAnimalDetails(animal_list_t *animal_list, sighting_list_t *sighting_lis
     }
 }
 
+void DeleteAnimal(animal_list_t *list, int id)
+{
+    int idx = 0;
+    int i = 0;
+    animal_t *temp = NULL;
+
+    assert(NULL != list);
+
+    idx = FindAnimalByID(list, id);
+    if (-1 == idx)
+    {
+        printf("Animal not found.\n");
+        return;
+    }
+
+    for (i = idx; i < list->count - 1; ++i)
+    {
+        list->animals[i] = list->animals[i + 1];
+    }
+
+    --list->count;
+
+    temp = (animal_t *)realloc(list->animals, list->count * sizeof(animal_t));
+    if (NULL == temp)
+    {
+        printf("Error reallocating memory\n");
+        return;
+    }
+    /*Assign temp to list->animals only if realloc is successful*/
+    list->animals = temp;
+
+    printf("Animal deleted successfully\n");
+}
+
 void FreeAnimalList(animal_list_t *list)
 {
     if (list->animals)
     {
         free(list->animals);
+        list->animals = NULL;
     }
 
     free(list);

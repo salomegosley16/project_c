@@ -1,3 +1,7 @@
+/***************************
+Dev: Salome Gosley
+****************************/
+
 #ifndef SIGHTING_H
 #define SIGHTING_H
 
@@ -22,6 +26,9 @@ typedef struct
 sighting_list_t *InitSightingList();
 
 void *LogSighting(sighting_list_t *list);
+
+/*Deletes a sighting from the sighting list by its index*/
+void DeleteSighting(sighting_list_t *list, int index);
 
 void FreeSightingList(sighting_list_t *list);
 

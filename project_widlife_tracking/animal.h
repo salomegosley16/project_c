@@ -1,3 +1,7 @@
+/***************************
+Dev: Salome Gosley
+****************************/
+
 #ifndef ANIMAL_H
 #define ANIMAL_H
 
@@ -37,6 +41,9 @@ void UpdateAnimal(animal_list_t *list);
 
 /*Display the details of a specific animal, including associated sightings*/
 void ViewAnimalDetails(animal_list_t *animal_list, sighting_list_t *sighting_list);
+
+/*Deletes an animal from the animal list by its id*/
+void DeleteAnimal(animal_list_t *list, int id);
 
 /*Frees the memory allocated for the animal list structure and its contents*/
 void FreeAnimalList(animal_list_t *list);

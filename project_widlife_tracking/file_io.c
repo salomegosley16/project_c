@@ -4,6 +4,7 @@
 #include "file_io.h"  /*file_io.h header*/
 #include <assert.h>   /*assert()*/
 #include <stdlib.h>   /*malloc()*/
+#include <string.h>   /*memset()*/
 
 void SaveAnimals(animal_list_t *list)
 {
@@ -34,14 +35,15 @@ void LoadAnimals(animal_list_t *list)
     file = fopen("animals.dat", "rb");
     if (NULL == file)
     {
-        return;
         printf("Error loading animals data.\n");
+        return;
     }
 
     fread(&list->count, sizeof(int), 1, file);
     list->animals = (animal_t *)malloc(list->count * sizeof(animal_t));
     if (NULL == list->animals)
     {
+        fclose(file); /*Ensure the file is closed if allocation fails*/
         return;
     }
 
@@ -86,6 +88,7 @@ void LoadSightings(sighting_list_t *list)
     list->sightings = (sighting_t *)malloc(list->count * sizeof(sighting_t));
     if (NULL == list->sightings)
     {
+        fclose(file);
         return;
     }
 

@@ -11,8 +11,8 @@ void GenerateReports(animal_list_t *animal_list, sighting_list_t *sighting_list)
     assert(NULL != animal_list);
     assert(NULL != sighting_list);
 
-    printf("Total number of animals: %d\n", animal_list->count);
-    printf("Total number of sightings: %d\n", sighting_list->count);
+    printf("\nTotal number of animals: %d\n", animal_list->count);
+    printf("\nTotal number of sightings: %d\n", sighting_list->count);
 
     for (i = 0; i < animal_list->count; ++i)
     {

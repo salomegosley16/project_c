@@ -1,6 +1,8 @@
 {
     "files.associations": {
         "habitat.h": "c",
-        "animal.h": "c"
+        "animal.h": "c",
+        "stdlib.h": "c",
+        "assert.h": "c"
     }
 }

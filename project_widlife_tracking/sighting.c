@@ -2,6 +2,7 @@
 #include <stdlib.h>   /*mallo() realloc() free()*/
 #include "sighting.h" /*sighting.h header*/
 #include <assert.h>   /*assert()*/
+#include <string.h>   /*memset*/
 
 sighting_list_t *InitSightingList()
 {
@@ -31,6 +32,7 @@ void *LogSighting(sighting_list_t *list)
     }
 
     new_sighting = &list->sightings[list->count - 1];
+    memset(new_sighting, 0, sizeof(sighting_t)); /*zero out the new animal*/
 
     printf("Enter animal ID: ");
     scanf("%d", &new_sighting->animal_id);
@@ -44,11 +46,44 @@ void *LogSighting(sighting_list_t *list)
     printf("\nSighting logged successfully.\n");
 }
 
+void DeleteSighting(sighting_list_t *list, int index)
+{
+    int i = 0;
+    sighting_t *temp = NULL;
+
+    assert(NULL != list);
+
+    if (index < 0 || index >= list->count)
+    {
+        printf("Sighting not found.\n");
+        return;
+    }
+
+    for (i = index; i < list->count - 1; ++i)
+    {
+        list->sightings[i] = list->sightings[i + 1];
+    }
+
+    --list->count;
+
+    temp == (sighting_t *)realloc(list->sightings, list->count * sizeof(sighting_t));
+    if (NULL == temp)
+    {
+        printf("Error reallocating memory\n");
+        return;
+    }
+
+    list->sightings = temp;
+
+    printf("Sighting deleted successfully\n");
+}
+
 void FreeSightingList(sighting_list_t *list)
 {
     if (list->sightings)
     {
         free(list->sightings);
+        list->sightings = NULL;
     }
 
     free(list);
