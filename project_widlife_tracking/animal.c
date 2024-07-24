@@ -155,14 +155,22 @@ void DeleteAnimal(animal_list_t *list, int id)
 
     --list->count;
 
-    temp = (animal_t *)realloc(list->animals, list->count * sizeof(animal_t));
-    if (NULL == temp)
+    if (0 < list->count)
     {
-        printf("Error reallocating memory\n");
-        return;
+        temp = (animal_t *)realloc(list->animals, list->count * sizeof(animal_t));
+        if (NULL == temp)
+        {
+            printf("Error reallocating memory\n");
+            return;
+        }
+        /*Assign temp to list->animals only if realloc is successful*/
+        list->animals = temp;
     }
-    /*Assign temp to list->animals only if realloc is successful*/
-    list->animals = temp;
+    else
+    {
+        free(list->animals);
+        list->animals = NULL;
+    }
 
     printf("Animal deleted successfully\n");
 }

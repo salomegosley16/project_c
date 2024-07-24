@@ -45,23 +45,23 @@ int main()
             GenerateReports(animal_list, sighting_list);
             break;
         case 6:
-            SaveAnimals(animal_list);
-            SaveSightings(sighting_list);
-            break;
-        case 7:
             printf("\nEnter the ID the the animal to delete: ");
             scanf("%d", &id);
             DeleteAnimal(animal_list, id);
             break;
-        case 8:
+        case 7:
             printf("\nEnter the index of the sighting to delete: ");
             scanf("%d", &idx);
             DeleteSighting(sighting_list, idx);
             break;
+        case 8:
+            SaveAnimals(animal_list);
+            SaveSightings(sighting_list);
+            break;
         default:
             printf("Invalid choice. Please try again.\n");
         }
-    } while (6 != choice);
+    } while (8 != choice);
 
     FreeAnimalList(animal_list);
     FreeSightingList(sighting_list);

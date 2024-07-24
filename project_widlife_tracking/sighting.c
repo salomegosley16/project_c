@@ -66,14 +66,22 @@ void DeleteSighting(sighting_list_t *list, int index)
 
     --list->count;
 
-    temp == (sighting_t *)realloc(list->sightings, list->count * sizeof(sighting_t));
-    if (NULL == temp)
+    if (0 < list->count)
     {
-        printf("Error reallocating memory\n");
-        return;
-    }
+        temp == (sighting_t *)realloc(list->sightings, list->count * sizeof(sighting_t));
+        if (NULL == temp)
+        {
+            printf("Error reallocating memory\n");
+            return;
+        }
 
-    list->sightings = temp;
+        list->sightings = temp;
+    }
+    else
+    {
+        free(list->sightings);
+        list->sightings = NULL;
+    }
 
     printf("Sighting deleted successfully\n");
 }
